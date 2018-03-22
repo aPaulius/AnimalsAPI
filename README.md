@@ -10,5 +10,5 @@ $ docker-compose up -d
 Documentation
 -------------
 ```bash
-http://localhost:8000/doc
+http://localhost:8088/api/doc
 ```

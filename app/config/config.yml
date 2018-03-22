@@ -78,4 +78,5 @@ doctrine_migrations:
     organize_migrations: false
     custom_template: ~
 
-nelmio_api_doc: ~
+nelmio_api_doc:
+    name: Animals API
