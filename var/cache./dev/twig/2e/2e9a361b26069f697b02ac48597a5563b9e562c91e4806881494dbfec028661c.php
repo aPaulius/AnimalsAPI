@@ -15,20 +15,20 @@ class __TwigTemplate_2e7246c34dd479780e26d473176e7cea78fb959581ea5bf097a857296df
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        $__internal_edb0c81bba718ac59d00bfed59c24bc8edfaaf3e1ee1594b356f0678012c7b76 = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
-        $__internal_edb0c81bba718ac59d00bfed59c24bc8edfaaf3e1ee1594b356f0678012c7b76->enter($__internal_edb0c81bba718ac59d00bfed59c24bc8edfaaf3e1ee1594b356f0678012c7b76_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "NelmioApiDocBundle::Components/motd.html.twig"));
+        $__internal_481ab446f9ac699dabad765b940a2dd62055f60707ce38ea750fa50a900b1a5d = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
+        $__internal_481ab446f9ac699dabad765b940a2dd62055f60707ce38ea750fa50a900b1a5d->enter($__internal_481ab446f9ac699dabad765b940a2dd62055f60707ce38ea750fa50a900b1a5d_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "NelmioApiDocBundle::Components/motd.html.twig"));
 
-        $__internal_f754d0c2f7451b68cfff706d0d81b4e7668e7b5e651f45f3d6bc1ad3480e9678 = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
-        $__internal_f754d0c2f7451b68cfff706d0d81b4e7668e7b5e651f45f3d6bc1ad3480e9678->enter($__internal_f754d0c2f7451b68cfff706d0d81b4e7668e7b5e651f45f3d6bc1ad3480e9678_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "NelmioApiDocBundle::Components/motd.html.twig"));
+        $__internal_a1518cf46922204f0ba64e3487f340a17de4354583381ba9b590826595b15e2a = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
+        $__internal_a1518cf46922204f0ba64e3487f340a17de4354583381ba9b590826595b15e2a->enter($__internal_a1518cf46922204f0ba64e3487f340a17de4354583381ba9b590826595b15e2a_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "NelmioApiDocBundle::Components/motd.html.twig"));
 
         // line 1
         echo "<div class=\"motd\"></div>
 ";
         
-        $__internal_edb0c81bba718ac59d00bfed59c24bc8edfaaf3e1ee1594b356f0678012c7b76->leave($__internal_edb0c81bba718ac59d00bfed59c24bc8edfaaf3e1ee1594b356f0678012c7b76_prof);
+        $__internal_481ab446f9ac699dabad765b940a2dd62055f60707ce38ea750fa50a900b1a5d->leave($__internal_481ab446f9ac699dabad765b940a2dd62055f60707ce38ea750fa50a900b1a5d_prof);
 
         
-        $__internal_f754d0c2f7451b68cfff706d0d81b4e7668e7b5e651f45f3d6bc1ad3480e9678->leave($__internal_f754d0c2f7451b68cfff706d0d81b4e7668e7b5e651f45f3d6bc1ad3480e9678_prof);
+        $__internal_a1518cf46922204f0ba64e3487f340a17de4354583381ba9b590826595b15e2a->leave($__internal_a1518cf46922204f0ba64e3487f340a17de4354583381ba9b590826595b15e2a_prof);
 
     }
 

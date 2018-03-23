@@ -1,7 +1,5 @@
 FROM php:7.1-fpm
 
-COPY . /var/www/html
-
 RUN apt-get update \
 	&& apt-get install -y \
         ca-certificates \

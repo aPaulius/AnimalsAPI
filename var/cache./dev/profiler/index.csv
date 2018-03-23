@@ -17,3 +17,4 @@ deef5d,172.27.0.1,GET,http://localhost:81/animals,1521796919,,200
 5d7019,172.27.0.1,POST,http://127.0.0.1:81/animals,1521796927,,201
 dfa856,172.27.0.1,GET,http://localhost:81/animals,1521796932,,200
 70506b,172.27.0.1,GET,http://localhost:81/,1521797171,,404
+cc1f77,172.31.0.1,GET,http://localhost/doc,1521803929,,200
