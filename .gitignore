@@ -7,3 +7,4 @@ var/sessions/*
 !var/sessions/.gitkeep
 .web-server-pid
 app/sqlite.db
+/var/cache./*
