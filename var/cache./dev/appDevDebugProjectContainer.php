@@ -16,6 +16,6 @@ if (!\class_exists(appDevDebugProjectContainer::class, false)) {
 
 return new \ContainerR3d1sgm\appDevDebugProjectContainer(array(
     'container.build_hash' => 'R3d1sgm',
-    'container.build_id' => '1c41fa3a',
-    'container.build_time' => 1521795079,
+    'container.build_id' => '50c77cd9',
+    'container.build_time' => 1521796751,
 ));
