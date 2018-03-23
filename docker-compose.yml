@@ -1,10 +1,19 @@
 version: '2'
 
 services:
-  web:
-    build: .
-    image: paulius_web
-    ports: [ "8088:80" ]
-    environment:
-     - SYMFONY_ENV
-     - SYMFONY_DEBUG
+
+  app:
+    container_name: app
+    build: .docker/php
+    volumes:
+      - .:/app
+      - ./var/logs:/app/var/logs
+      - ./var/cache.:/app/var/cache
+
+  nginx:
+    container_name: nginx
+    build: .docker/nginx
+    volumes_from:
+      - app
+    ports:
+      - "81:80"

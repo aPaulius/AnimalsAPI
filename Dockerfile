@@ -1,1 +1,0 @@
-FROM aleksiunas/animals:api
