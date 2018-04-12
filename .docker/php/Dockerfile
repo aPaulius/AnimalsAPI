@@ -12,3 +12,9 @@ RUN apt-get update \
 RUN usermod -u 1000 www-data
 
 CMD php-fpm -F
+
+[ ] dokumentacija
+[ ] fixtures
+[ ] DELETE pranesti, kad nebera
+[ ] teises ir php komandos
+[ ] animals/text
