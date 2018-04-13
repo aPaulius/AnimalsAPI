@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -37,11 +38,23 @@ class Animal implements \JsonSerializable
      */
     private $species;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Program", inversedBy="animals")
+     * @ORM\JoinTable(name="animal_programs")
+     */
+    private $programs;
+
+    public function __construct($id)
+    {
+        $this->programs = new ArrayCollection();
+    }
+
     public function jsonSerialize(): array
     {
         return [
             'breed' => $this->breed,
             'species' => $this->species,
+            'programs' => $this->programs->toArray(),
         ];
     }
 
@@ -68,5 +81,10 @@ class Animal implements \JsonSerializable
     public function setSpecies(?string $species)
     {
         $this->species = $species;
+    }
+
+    public function addProgram(Program $program)
+    {
+        $this->programs->add($program);
     }
 }

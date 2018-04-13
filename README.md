@@ -1,15 +1,27 @@
 Animals API
 =====================
 
-Installation
-------------
+Informacija
+-----------
 ```bash
-$ docker-compose up -d
-$ php bin/console doctrine:database:create --no-interaction && php bin/console doctrine:migrations:migrate --no-interaction
+Naudojant kolegų TV programų servisą gyvūnams galima priskirti TV programas. 
 ```
 
-Documentation
+Paleidimas
+------------
+```bash
+$ docker-compose up
+```
+
+Servisai
+--------
+```bash
+Animals API: localhost:80
+TV programs API: localhost:5000 
+```
+
+Dokumentacija
 -------------
 ```bash
-http://localhost:81/doc
+http://localhost:80/doc
 ```

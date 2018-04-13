@@ -168,6 +168,18 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             }
             not_animals_delete:
 
+            // animals_assign_program
+            if (preg_match('#^/animals/(?P<id>[^/]++)/program$#sD', $pathinfo, $matches)) {
+                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'animals_assign_program')), array (  '_controller' => 'AppBundle\\Controller\\AnimalController::assignProgramAction',));
+                if (!in_array($requestMethod, array('PATCH'))) {
+                    $allow = array_merge($allow, array('PATCH'));
+                    goto not_animals_assign_program;
+                }
+
+                return $ret;
+            }
+            not_animals_assign_program:
+
         }
 
         // nelmio_api_doc_index
