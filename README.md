@@ -23,5 +23,5 @@ TV programs API: localhost:5000
 Dokumentacija
 -------------
 ```bash
-http://localhost:80/doc
+localhost:80/doc
 ```
