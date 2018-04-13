@@ -52,6 +52,7 @@ class Animal implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [
+            'id' => $this->id,
             'breed' => $this->breed,
             'species' => $this->species,
             'programs' => $this->programs->toArray(),
