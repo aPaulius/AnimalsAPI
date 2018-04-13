@@ -44,7 +44,7 @@ class Animal implements \JsonSerializable
      */
     private $programs;
 
-    public function __construct($id)
+    public function __construct()
     {
         $this->programs = new ArrayCollection();
     }
