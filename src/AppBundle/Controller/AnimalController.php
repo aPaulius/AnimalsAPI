@@ -178,7 +178,7 @@ class AnimalController extends Controller
 
     /**
      * @Route("/animals/{id}/programs", name="animals_assign_program")
-     * @Method("PATCH")
+     * @Method("POST")
      * @ApiDoc(
      *     description="Assign program to animal",
      *     requirements={
