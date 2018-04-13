@@ -177,7 +177,7 @@ class AnimalController extends Controller
     }
 
     /**
-     * @Route("/animals/{id}/program", name="animals_assign_program")
+     * @Route("/animals/{id}/programs", name="animals_assign_program")
      * @Method("PATCH")
      * @ApiDoc(
      *     description="Assign program to animal",
@@ -191,7 +191,7 @@ class AnimalController extends Controller
      *     },
      *     statusCodes={
      *         200="TV program assigned to animal",
-     *         400="Validaiton error",
+     *         400="Validation error",
      *         404="Animal not found"
      *     }
      * )
