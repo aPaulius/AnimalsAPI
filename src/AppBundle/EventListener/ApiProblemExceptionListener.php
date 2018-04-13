@@ -13,7 +13,7 @@ class ApiProblemExceptionListener
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $e = $event->getException();
-        
+
         if ($e instanceof ApiProblemException) {
             $apiProblem = $e->getApiProblem();
         } else {
@@ -23,7 +23,7 @@ class ApiProblemExceptionListener
                 $apiProblem->setDetails($e->getMessage());
             }
         }
-        
+
         $jsonResponse = new JsonResponse(
             $apiProblem,
             $apiProblem->getStatusCode(), [

@@ -2,18 +2,31 @@ version: '2'
 
 services:
 
-  app:
-    container_name: app
-    build: .docker/php
-    volumes:
-      - .:/app
-      - ./var/logs:/app/var/logs
-      - ./var/cache.:/app/var/cache
+    app:
+        container_name: app
+        build: .docker/php
+        volumes:
+            - .:/app
+            - ./var/logs:/app/var/logs
+            - ./var/cache.:/app/var/cache
 
-  nginx:
-    container_name: nginx
-    build: .docker/nginx
-    volumes_from:
-      - app
-    ports:
-      - "80:80"
+    tv_api:
+        build: tvApi
+        command: python app.py
+        ports:
+            - "5000:5000"
+        volumes:
+            - ./tvApi:/tvApi
+        links:
+            - redis
+
+    redis:
+       image: redis
+
+    nginx:
+        container_name: nginx
+        build: .docker/nginx
+        volumes_from:
+            - app
+        ports:
+            - "80:80"

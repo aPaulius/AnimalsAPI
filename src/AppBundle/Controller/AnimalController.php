@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Animal;
+use AppBundle\Entity\Program;
 use AppBundle\Model\ApiProblem;
 use AppBundle\Model\ApiProblemException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -24,6 +25,10 @@ class AnimalController extends Controller
      * @Method("POST")
      * @ApiDoc(
      *     description="Create new animal",
+     *     parameters={
+     *         {"name"="species", "dataType"="string", "required"=true, "description"="animal species, e.g., cat"},
+     *         {"name"="breed", "dataType"="string", "required"=true, "description"="animal breed, e.g., abyssinian "}
+     *     },
      *     statusCodes={
      *         201="Animal created",
      *         400={
@@ -60,7 +65,11 @@ class AnimalController extends Controller
      * @ApiDoc(
      *     description="Update animal",
      *     requirements={
-     *         {"name"="id", "requirement"="\d", "dataType"="integer", "description"="animal id"}
+     *         {"name"="id", "requirement"="\d+", "dataType"="integer", "description"="animal id"}
+     *     },
+     *     parameters={
+     *         {"name"="species", "dataType"="string", "required"=true, "description"="animal species, e.g., cat"},
+     *         {"name"="breed", "dataType"="string","required"=true, "description"="animal breed, e.g., abyssinian "}
      *     },
      *     statusCodes={
      *         200="Animal updated",
@@ -72,7 +81,7 @@ class AnimalController extends Controller
      *     }
      * )
      */
-    public function updateAction(Request $request, int $id): JsonResponse
+    public function updateAction(Request $request, $id): JsonResponse
     {
         $animal = $this->getDoctrine()->getRepository(Animal::class)->find($id);
 
@@ -120,7 +129,7 @@ class AnimalController extends Controller
      * @ApiDoc(
      *     description="Show animal",
      *     requirements={
-     *         {"name"="id", "requirement"="\d", "dataType"="integer", "description"="animal id"}
+     *         {"name"="id", "requirement"="\d+", "dataType"="integer", "description"="animal id"}
      *     },
      *     statusCodes={
      *         200="Animal returned",
@@ -128,7 +137,7 @@ class AnimalController extends Controller
      *     }
      * )
      */
-    public function showAction(int $id): JsonResponse
+    public function showAction($id): JsonResponse
     {
         $animal = $this->getDoctrine()->getRepository(Animal::class)->find($id);
 
@@ -145,26 +154,108 @@ class AnimalController extends Controller
      * @ApiDoc(
      *     description="Delete animal",
      *     requirements={
-     *         {"name"="id", "requirement"="\d", "dataType"="integer", "description"="animal id"}
+     *         {"name"="id", "requirement"="\d+", "dataType"="integer", "description"="animal id"}
      *     },
      *     statusCodes={
-     *         204={
-     *             "Animal deleted",
-     *             "Animal not found"
-     *         }
+     *         204="Animal deleted",
+     *         404="Animal not found"
      *     }
      * )
      */
-    public function deleteAction(int $id): JsonResponse
+    public function deleteAction($id): JsonResponse
     {
         $animal = $this->getDoctrine()->getRepository(Animal::class)->find($id);
 
-        if ($animal) {
-            $this->getDoctrine()->getManager()->remove($animal);
-            $this->getDoctrine()->getManager()->flush();
+        if (! $animal) {
+            throw new NotFoundHttpException('Animal not found.');
         }
 
+        $this->getDoctrine()->getManager()->remove($animal);
+        $this->getDoctrine()->getManager()->flush();
+
         return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @Route("/animals/{id}/program", name="animals_assign_program")
+     * @Method("PATCH")
+     * @ApiDoc(
+     *     description="Assign program to animal",
+     *     requirements={
+     *         {"name"="id", "requirement"="\d+", "dataType"="integer", "description"="animal id"}
+     *     },
+     *     parameters={
+     *          {"name"="title", "required"=true, "dataType"="string", "description"="TV title"},
+     *          {"name"="television", "required"=true, "dataType"="string", "description"="Television name"},
+     *          {"name"="start_time", "required"=true, "dataType"="string", "description"="TV show start time"}
+     *     },
+     *     statusCodes={
+     *         200="TV program assigned to animal",
+     *         400="Validaiton error",
+     *         404="Animal not found"
+     *     }
+     * )
+     */
+    public function assignProgramAction(Request $request, $id): JsonResponse
+    {
+        $animal = $this->getDoctrine()->getRepository(Animal::class)->find($id);
+
+        if (! $animal) {
+            throw new NotFoundHttpException('Animal not found.');
+        }
+
+        $data = $this->handle($request);
+
+        $title = $data['title'] ?? null;
+        $television = $data['television'] ?? null;
+        $startTime = $data['start_time'] ?? null;
+
+        $this->validateAssignProgramRequest($title, $television, $startTime);
+
+        $response = $this->get('eight_points_guzzle.client.tv_api')->post('tv_programs', [
+            'body' => json_encode([
+                'title' => $title,
+                'television' => $television,
+                'start_time' => $startTime,
+            ])
+        ]);
+
+        $tvProgramId = (int) explode('/', $response->getHeader('Location')[0])[4];
+
+        $program = new Program($tvProgramId);
+
+        $animal->addProgram($program);
+
+        $this->save($program);
+
+        return $this->json($animal, Response::HTTP_OK);
+    }
+
+    private function validateAssignProgramRequest($title, $television, $startTime)
+    {
+        $errors = [];
+
+        if (! $title) {
+            $errors[] = 'Title is required';
+        }
+
+        if (! $television) {
+            $errors[] = 'Television is required';
+        }
+
+        if (! $startTime) {
+            $errors[] = 'Start time is required';
+        }
+
+        if ($errors) {
+            $apiProblem = new ApiProblem(
+                Response::HTTP_BAD_REQUEST,
+                ApiProblem::TYPE_VALIDATION_ERROR,
+                $errors
+            );
+
+            throw new ApiProblemException($apiProblem);
+        }
     }
 
     private function handleRequest(Request $request, Animal $animal)
@@ -225,9 +316,9 @@ class AnimalController extends Controller
         throw new ApiProblemException($apiProblem);
     }
     
-    private function save(Animal $animal): void
+    private function save($entity): void
     {
-        $this->getDoctrine()->getManager()->persist($animal);
+        $this->getDoctrine()->getManager()->persist($entity);
         $this->getDoctrine()->getManager()->flush();
     }
 }

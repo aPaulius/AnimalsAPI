@@ -8,3 +8,5 @@ var/sessions/*
 .web-server-pid
 app/sqlite.db
 vendor/*
+web/bundles/*
+var/cache.

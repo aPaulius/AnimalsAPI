@@ -19,9 +19,11 @@
       <parameter key="AppBundle">AppBundle\AppBundle</parameter>
       <parameter key="DoctrineMigrationsBundle">Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle</parameter>
       <parameter key="NelmioApiDocBundle">Nelmio\ApiDocBundle\NelmioApiDocBundle</parameter>
+      <parameter key="EightPointsGuzzleBundle">EightPoints\Bundle\GuzzleBundle\EightPointsGuzzleBundle</parameter>
       <parameter key="DebugBundle">Symfony\Bundle\DebugBundle\DebugBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
+      <parameter key="DoctrineFixturesBundle">Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle</parameter>
       <parameter key="SensioGeneratorBundle">Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle</parameter>
       <parameter key="WebServerBundle">Symfony\Bundle\WebServerBundle\WebServerBundle</parameter>
     </parameter>
@@ -76,6 +78,11 @@
         <parameter key="path">/app/vendor/nelmio/api-doc-bundle/Nelmio/ApiDocBundle</parameter>
         <parameter key="namespace">Nelmio\ApiDocBundle</parameter>
       </parameter>
+      <parameter key="EightPointsGuzzleBundle" type="collection">
+        <parameter key="parent">null</parameter>
+        <parameter key="path">/app/vendor/eightpoints/guzzle-bundle/src</parameter>
+        <parameter key="namespace">EightPoints\Bundle\GuzzleBundle</parameter>
+      </parameter>
       <parameter key="DebugBundle" type="collection">
         <parameter key="parent">null</parameter>
         <parameter key="path">/app/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle</parameter>
@@ -90,6 +97,11 @@
         <parameter key="parent">null</parameter>
         <parameter key="path">/app/vendor/sensio/distribution-bundle</parameter>
         <parameter key="namespace">Sensio\Bundle\DistributionBundle</parameter>
+      </parameter>
+      <parameter key="DoctrineFixturesBundle" type="collection">
+        <parameter key="parent">null</parameter>
+        <parameter key="path">/app/vendor/doctrine/doctrine-fixtures-bundle</parameter>
+        <parameter key="namespace">Doctrine\Bundle\FixturesBundle</parameter>
       </parameter>
       <parameter key="SensioGeneratorBundle" type="collection">
         <parameter key="parent">null</parameter>
@@ -399,6 +411,18 @@
       <parameter key="licenseUrl">null</parameter>
     </parameter>
     <parameter key="nelmio_api_doc.swagger.model_naming_strategy">dot_notation</parameter>
+    <parameter key="eight_points_guzzle.http_client.class">GuzzleHttp\Client</parameter>
+    <parameter key="eight_points_guzzle.formatter.class">GuzzleHttp\MessageFormatter</parameter>
+    <parameter key="eight_points_guzzle.symfony_log_formatter.class">GuzzleHttp\MessageFormatter</parameter>
+    <parameter key="eight_points_guzzle.data_collector.class">EightPoints\Bundle\GuzzleBundle\DataCollector\HttpDataCollector</parameter>
+    <parameter key="eight_points_guzzle.logger.class">EightPoints\Bundle\GuzzleBundle\Log\Logger</parameter>
+    <parameter key="eight_points_guzzle.middleware.log.class">EightPoints\Bundle\GuzzleBundle\Middleware\LogMiddleware</parameter>
+    <parameter key="eight_points_guzzle.middleware.event_dispatcher.class">EightPoints\Bundle\GuzzleBundle\Middleware\EventDispatchMiddleware</parameter>
+    <parameter key="eight_points_guzzle.middleware.request_time.class">EightPoints\Bundle\GuzzleBundle\Middleware\RequestTimeMiddleware</parameter>
+    <parameter key="eight_points_guzzle.middleware.symfony_log.class">EightPoints\Bundle\GuzzleBundle\Middleware\SymfonyLogMiddleware</parameter>
+    <parameter key="eight_points_guzzle.symfony_log_formatter.pattern">{method} {uri} {code}</parameter>
+    <parameter key="eight_points_guzzle.middleware.class">GuzzleHttp\Middleware</parameter>
+    <parameter key="eight_points_guzzle.plugin.header.headers" type="collection"/>
     <parameter key="web_profiler.debug_toolbar.position">bottom</parameter>
     <parameter key="web_profiler.debug_toolbar.intercept_redirects">false</parameter>
     <parameter key="web_profiler.debug_toolbar.mode">2</parameter>
@@ -467,6 +491,10 @@
         <parameter>dump</parameter>
         <parameter>@Debug/Profiler/dump.html.twig</parameter>
       </parameter>
+      <parameter key="eight_points_guzzle.data_collector" type="collection">
+        <parameter>eight_points_guzzle</parameter>
+        <parameter>@EightPointsGuzzle/debug.html.twig</parameter>
+      </parameter>
       <parameter key="data_collector.config" type="collection">
         <parameter>config</parameter>
         <parameter>@WebProfiler/Collector/config.html.twig</parameter>
@@ -524,6 +552,7 @@
       <parameter key="console.command.doctrine_bundle_migrationsbundle_command_migrationsstatusdoctrinecommand">console.command.doctrine_bundle_migrationsbundle_command_migrationsstatusdoctrinecommand</parameter>
       <parameter key="console.command.doctrine_bundle_migrationsbundle_command_migrationsversiondoctrinecommand">console.command.doctrine_bundle_migrationsbundle_command_migrationsversiondoctrinecommand</parameter>
       <parameter key="console.command.sensiolabs_security_command_securitycheckercommand">sensio_distribution.security_checker.command</parameter>
+      <parameter key="console.command.doctrine_bundle_fixturesbundle_command_loaddatafixturesdoctrinecommand">doctrine.fixtures_load_command</parameter>
       <parameter key="console.command.symfony_bundle_webserverbundle_command_serverruncommand">web_server.command.server_run</parameter>
       <parameter key="console.command.symfony_bundle_webserverbundle_command_serverstartcommand">web_server.command.server_start</parameter>
       <parameter key="console.command.symfony_bundle_webserverbundle_command_serverstopcommand">web_server.command.server_stop</parameter>
@@ -571,6 +600,7 @@
       <parameter key="doctrine.schema_update_command">true</parameter>
       <parameter key="doctrine.schema_validate_command">true</parameter>
       <parameter key="sensio_distribution.security_checker.command">true</parameter>
+      <parameter key="doctrine.fixtures_load_command">true</parameter>
       <parameter key="web_server.command.server_run">true</parameter>
       <parameter key="web_server.command.server_start">true</parameter>
       <parameter key="web_server.command.server_stop">true</parameter>
@@ -584,6 +614,9 @@
     <service id="AppBundle\AppBundle" class="AppBundle\AppBundle" public="false" autowire="true" autoconfigure="true"/>
     <service id="AppBundle\Controller\AnimalController" class="AppBundle\Controller\AnimalController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
+    </service>
+    <service id="AppBundle\DataFixtures\AnimalFixtures" class="AppBundle\DataFixtures\AnimalFixtures" public="false" autowire="true" autoconfigure="true">
+      <tag name="doctrine.fixture.orm"/>
     </service>
     <service id="AppBundle\EventListener\ApiProblemExceptionListener" class="AppBundle\EventListener\ApiProblemExceptionListener" public="false" autowire="true" autoconfigure="true">
       <tag name="kernel.event_listener" event="kernel.exception"/>
@@ -1420,6 +1453,9 @@
         <argument type="service" id="data_collector.dump"/>
       </call>
       <call method="add">
+        <argument type="service" id="eight_points_guzzle.data_collector"/>
+      </call>
+      <call method="add">
         <argument type="service" id="data_collector.config"/>
       </call>
     </service>
@@ -1725,14 +1761,6 @@
       </call>
       <call method="addListener">
         <argument>kernel.request</argument>
-        <argument type="collection">
-          <argument type="service" id="debug.debug_handlers_listener"/>
-          <argument>configure</argument>
-        </argument>
-        <argument>2048</argument>
-      </call>
-      <call method="addListener">
-        <argument>console.command</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
           <argument>configure</argument>
@@ -2720,6 +2748,9 @@
         <argument type="service" id="nelmio_api_doc.twig.extension.extra_markdown"/>
       </call>
       <call method="addExtension">
+        <argument type="service" id="eight_points_guzzle.twig_extension.debug"/>
+      </call>
+      <call method="addExtension">
         <argument type="service" id="twig.extension.webprofiler"/>
       </call>
       <call method="addGlobal">
@@ -2819,6 +2850,14 @@
       <call method="addPath">
         <argument>/app/vendor/nelmio/api-doc-bundle/Nelmio/ApiDocBundle/Resources/views</argument>
         <argument>!NelmioApiDoc</argument>
+      </call>
+      <call method="addPath">
+        <argument>/app/vendor/eightpoints/guzzle-bundle/src/Resources/views</argument>
+        <argument>EightPointsGuzzle</argument>
+      </call>
+      <call method="addPath">
+        <argument>/app/vendor/eightpoints/guzzle-bundle/src/Resources/views</argument>
+        <argument>!EightPointsGuzzle</argument>
       </call>
       <call method="addPath">
         <argument>/app/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/Resources/views</argument>
@@ -2995,6 +3034,14 @@
       <call method="addPath">
         <argument>/app/vendor/nelmio/api-doc-bundle/Nelmio/ApiDocBundle/Resources/views</argument>
         <argument>!NelmioApiDoc</argument>
+      </call>
+      <call method="addPath">
+        <argument>/app/vendor/eightpoints/guzzle-bundle/src/Resources/views</argument>
+        <argument>EightPointsGuzzle</argument>
+      </call>
+      <call method="addPath">
+        <argument>/app/vendor/eightpoints/guzzle-bundle/src/Resources/views</argument>
+        <argument>!EightPointsGuzzle</argument>
       </call>
       <call method="addPath">
         <argument>/app/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/Resources/views</argument>
@@ -3811,6 +3858,63 @@
       <argument type="service" id="nelmio_api_doc.formatter.html_formatter"/>
       <argument>_doc</argument>
     </service>
+    <service id="eight_points_guzzle.twig_extension.debug" class="EightPoints\Bundle\GuzzleBundle\Twig\Extension\DebugExtension" public="false">
+      <tag name="twig.extension"/>
+    </service>
+    <service id="eight_points_guzzle.logger" class="EightPoints\Bundle\GuzzleBundle\Log\Logger" public="true"/>
+    <service id="eight_points_guzzle.data_collector" class="EightPoints\Bundle\GuzzleBundle\DataCollector\HttpDataCollector" public="false">
+      <tag name="data_collector" id="eight_points_guzzle" template="@EightPointsGuzzle/debug.html.twig"/>
+      <argument type="service" id="eight_points_guzzle.logger"/>
+    </service>
+    <service id="eight_points_guzzle.formatter" class="GuzzleHttp\MessageFormatter" public="true"/>
+    <service id="eight_points_guzzle.symfony_log_formatter" class="GuzzleHttp\MessageFormatter" public="true">
+      <argument>{method} {uri} {code}</argument>
+    </service>
+    <service id="eight_points_guzzle.middleware.symfony_log" class="EightPoints\Bundle\GuzzleBundle\Middleware\SymfonyLogMiddleware" public="true">
+      <tag name="monolog.logger" channel="eight_points_guzzle"/>
+      <argument type="service" id="monolog.logger.eight_points_guzzle"/>
+      <argument type="service" id="eight_points_guzzle.symfony_log_formatter"/>
+    </service>
+    <service id="eight_points_guzzle.middleware.event_dispatch.tv_api" class="EightPoints\Bundle\GuzzleBundle\Middleware\EventDispatchMiddleware" public="true">
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument>tv_api</argument>
+    </service>
+    <service id="eight_points_guzzle.middleware.log.tv_api" class="EightPoints\Bundle\GuzzleBundle\Middleware\LogMiddleware" public="true">
+      <argument type="service" id="eight_points_guzzle.logger"/>
+      <argument type="service" id="eight_points_guzzle.formatter"/>
+    </service>
+    <service id="eight_points_guzzle.middleware.request_time.tv_api" class="EightPoints\Bundle\GuzzleBundle\Middleware\RequestTimeMiddleware" public="true">
+      <argument type="service" id="eight_points_guzzle.data_collector"/>
+    </service>
+    <service id="eight_points_guzzle.client.tv_api" class="GuzzleHttp\Client" public="true">
+      <argument type="collection">
+        <argument key="base_uri">tv_api:5000</argument>
+        <argument key="handler" type="service">
+          <service class="GuzzleHttp\HandlerStack" public="true">
+            <call method="push">
+              <argument type="expression">service('eight_points_guzzle.middleware.log.tv_api').log()</argument>
+              <argument>log</argument>
+            </call>
+            <call method="push">
+              <argument type="expression">service('eight_points_guzzle.middleware.request_time.tv_api')</argument>
+              <argument>request_time</argument>
+            </call>
+            <call method="push">
+              <argument type="expression">service('eight_points_guzzle.middleware.symfony_log')</argument>
+              <argument>symfony_log</argument>
+            </call>
+            <call method="unshift">
+              <argument type="expression">service('eight_points_guzzle.middleware.event_dispatch.tv_api').dispatchEvent()</argument>
+              <argument>events</argument>
+            </call>
+            <factory class="GuzzleHttp\HandlerStack" method="create"/>
+          </service>
+        </argument>
+        <argument key="headers" type="collection">
+          <argument key="Content-Type">application/json</argument>
+        </argument>
+      </argument>
+    </service>
     <service id="twig.extension.dump" class="Symfony\Bridge\Twig\Extension\DumpExtension" public="false">
       <tag name="twig.extension"/>
       <argument type="service" id="var_dumper.cloner"/>
@@ -3912,6 +4016,21 @@
         <argument>security:check</argument>
       </call>
     </service>
+    <service id="doctrine.fixtures_load_command" class="Doctrine\Bundle\FixturesBundle\Command\LoadDataFixturesDoctrineCommand">
+      <tag name="console.command" command="doctrine:fixtures:load"/>
+      <argument type="service" id="doctrine.fixtures.loader"/>
+      <call method="setName">
+        <argument>doctrine:fixtures:load</argument>
+      </call>
+    </service>
+    <service id="doctrine.fixtures.loader" class="Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader" public="false">
+      <argument type="service" id="service_container"/>
+      <call method="addFixtures">
+        <argument type="collection">
+          <argument type="service" id="AppBundle\DataFixtures\AnimalFixtures"/>
+        </argument>
+      </call>
+    </service>
     <service id="web_server.command.server_run" class="Symfony\Bundle\WebServerBundle\Command\ServerRunCommand" public="false">
       <tag name="console.command" command="server:run"/>
       <argument>/app/public</argument>
@@ -3948,12 +4067,14 @@
     </service>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.AppBundle\Controller\AnimalController" class="AppBundle\Controller\AnimalController" public="true" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.AppBundle\Controller\AnimalController" class="AppBundle\Controller\AnimalController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Doctrine\Bundle\FixturesBundle\ORMFixtureInterface.0.AppBundle\DataFixtures\AnimalFixtures" class="AppBundle\DataFixtures\AnimalFixtures" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.AppBundle\DataFixtures\AnimalFixtures" class="AppBundle\DataFixtures\AnimalFixtures" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="service_locator.sr6ctxe" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
-      <argument type="service" id="service_locator.iv.jde6"/>
+      <argument type="service" id="service_locator.8ahl0sj"/>
       <argument type="collection">
         <argument key="about">console.command.about</argument>
         <argument key="assets:install">console.command.assets_install</argument>
@@ -3995,6 +4116,7 @@
         <argument key="doctrine:schema:update">doctrine.schema_update_command</argument>
         <argument key="doctrine:schema:validate">doctrine.schema_validate_command</argument>
         <argument key="security:check">sensio_distribution.security_checker.command</argument>
+        <argument key="doctrine:fixtures:load">doctrine.fixtures_load_command</argument>
         <argument key="server:run">web_server.command.server_run</argument>
         <argument key="server:start">web_server.command.server_start</argument>
         <argument key="server:stop">web_server.command.server_stop</argument>
@@ -4002,7 +4124,7 @@
         <argument key="server:log">web_server.command.server_log</argument>
       </argument>
     </service>
-    <service id="service_locator.iv.jde6" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.8ahl0sj" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="console.command.about" type="service" id="console.command.about"/>
@@ -4031,6 +4153,7 @@
         <argument key="doctrine.database_drop_command" type="service" id="doctrine.database_drop_command"/>
         <argument key="doctrine.database_import_command" type="service" id="doctrine.database_import_command"/>
         <argument key="doctrine.ensure_production_settings_command" type="service" id="doctrine.ensure_production_settings_command"/>
+        <argument key="doctrine.fixtures_load_command" type="service" id="doctrine.fixtures_load_command"/>
         <argument key="doctrine.generate_entities_command" type="service" id="doctrine.generate_entities_command"/>
         <argument key="doctrine.mapping_convert_command" type="service" id="doctrine.mapping_convert_command"/>
         <argument key="doctrine.mapping_import_command" type="service" id="doctrine.mapping_import_command"/>
@@ -4185,6 +4308,21 @@
       </call>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.server_log"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.main"/>
+      </call>
+    </service>
+    <service id="monolog.logger.eight_points_guzzle" class="Symfony\Bridge\Monolog\Logger">
+      <argument>eight_points_guzzle</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.server_log"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.console"/>
       </call>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.main"/>

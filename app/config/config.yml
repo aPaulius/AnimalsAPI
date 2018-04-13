@@ -80,3 +80,13 @@ doctrine_migrations:
 
 nelmio_api_doc:
     name: Animals API
+
+eight_points_guzzle:
+    logging: true
+
+    clients:
+        tv_api:
+            base_url: "tv_api:5000"
+            options:
+                headers:
+                    Content-Type: "application/json"

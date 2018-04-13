@@ -7,14 +7,18 @@ RUN apt-get update \
         unzip \
         git \
     && rm -rf /var/lib/apt/lists/* \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && usermod -u 1000 www-data
 
-RUN usermod -u 1000 www-data
+CMD bash -c "cd /app \
+     && composer install \
+     && php bin/console doctrine:database:create --no-interaction \
+     && php bin/console doctrine:migrations:migrate --no-interaction \
+     && php bin/console doctrine:fixtures:load --no-interaction \
+     && php-fpm -F"
 
-CMD php-fpm -F
-
-[ ] dokumentacija
-[ ] fixtures
-[ ] DELETE pranesti, kad nebera
-[ ] teises ir php komandos
-[ ] animals/text
+# [x] dokumentacija
+# [x] fixtures
+# [x] DELETE pranesti, kad nebera
+# [x] teises ir php komandos
+# [x] animals/text
