@@ -4,6 +4,7 @@ namespace AppBundle\EventListener;
 
 use AppBundle\Model\ApiProblem;
 use AppBundle\Model\ApiProblemException;
+use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -17,7 +18,11 @@ class ApiProblemExceptionListener
         if ($e instanceof ApiProblemException) {
             $apiProblem = $e->getApiProblem();
         } else {
-            $apiProblem = new ApiProblem($e->getStatusCode());
+            $statusCode = $e instanceof ClientException
+                ? $e->getCode()
+                : $e->getStatusCode();
+
+            $apiProblem = new ApiProblem($statusCode);
 
             if ($e instanceof HttpException) {
                 $apiProblem->setDetails($e->getMessage());

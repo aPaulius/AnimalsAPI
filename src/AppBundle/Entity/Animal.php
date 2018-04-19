@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -84,8 +85,18 @@ class Animal implements \JsonSerializable
         $this->species = $species;
     }
 
+    public function getPrograms(): Collection
+    {
+        return $this->programs;
+    }
+
     public function addProgram(Program $program)
     {
         $this->programs->add($program);
+    }
+
+    public function removePrograms()
+    {
+        $this->programs = new ArrayCollection();
     }
 }

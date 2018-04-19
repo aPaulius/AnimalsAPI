@@ -20,6 +20,22 @@ Animals API: localhost:80
 TV programs API: localhost:5000 (https://github.com/DovilePatiejunaite/WebServices)
 ```
 
+Pavyzdys
+--------
+```bash
+PUT /animals/{id}/programs
+{
+    "programs": [
+        {
+            "id": 1
+        },
+        {
+            "id": 2
+        }
+    ]
+}
+```
+
 Dokumentacija
 -------------
 ```bash
