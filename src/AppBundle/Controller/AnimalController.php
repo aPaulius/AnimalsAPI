@@ -9,6 +9,7 @@ use AppBundle\Entity\Program;
 use AppBundle\Model\ApiProblem;
 use AppBundle\Model\ApiProblemException;
 use Doctrine\Common\Collections\Collection;
+use GuzzleHttp\Exception\ConnectException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -452,6 +453,17 @@ class AnimalController extends Controller
     {
         $programs = [];
 
+        try {
+            $response = $this
+                ->get('eight_points_guzzle.client.tv_api')
+                ->get('tv_programs');
+        } catch (ConnectException $e) {
+            $animal = $animal->jsonSerialize();
+
+            return $animal;
+        }
+
+
         foreach ($animal->getPrograms() as $program) {
             $programs[] = $this->getProgram($program->getId());
         }
@@ -465,6 +477,15 @@ class AnimalController extends Controller
     private function getProgramIds(array $data): array
     {
         $programs = [];
+
+
+        try {
+            $response = $this
+                ->get('eight_points_guzzle.client.tv_api')
+                ->get('tv_programs');
+        } catch (ConnectException $e) {
+            return $programs;
+        }
 
         foreach ($data['programs'] as $program) {
             $programs[] = $this->getProgram($program['id'])->id;
