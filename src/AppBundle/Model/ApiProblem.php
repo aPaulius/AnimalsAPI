@@ -10,6 +10,7 @@ class ApiProblem implements \JsonSerializable
 {
     const TYPE_VALIDATION_ERROR = 'validation_error';
     const TYPE_INVALID_REQUEST_BODY_FORMAT = 'invalid_body_format';
+//    const TYPE_NOT_FOUND = 'not_found';
 
     private $statusCode;
     private $type;
@@ -73,6 +74,7 @@ class ApiProblem implements \JsonSerializable
         return [
             self::TYPE_VALIDATION_ERROR => 'There was a validation error.',
             self::TYPE_INVALID_REQUEST_BODY_FORMAT => 'Invalid JSON format sent.',
+//            self::TYPE_NOT_FOUND => 'Not Found',
         ];
     }
 }

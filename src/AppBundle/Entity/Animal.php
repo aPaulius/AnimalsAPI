@@ -7,6 +7,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -21,6 +22,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Animal implements \JsonSerializable
 {
     /**
+     * @var int
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -28,18 +30,21 @@ class Animal implements \JsonSerializable
     private $id;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Assert\NotBlank(message="Animal breed is required.")
-     */
-    private $breed;
-
-    /**
+     * @var string
      * @ORM\Column(type="string", nullable=true)
      * @Assert\NotBlank(message="Animal species is required.")
      */
     private $species;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank(message="Animal breed is required.")
+     */
+    private $breed;
+
+    /**
+     * @var array
      * @ORM\ManyToMany(targetEntity="Program", inversedBy="animals")
      * @ORM\JoinTable(name="animal_programs")
      */
@@ -48,6 +53,19 @@ class Animal implements \JsonSerializable
     public function __construct()
     {
         $this->programs = new ArrayCollection();
+    }
+
+    public function programsToArray()
+    {
+        $programsArray = [];
+
+        foreach ($this->programs as $program) {
+            $programsArray[] = [
+                'id' => $program->getId()
+            ];
+        }
+
+        $this->programs = $programsArray;
     }
 
     public function jsonSerialize(): array
@@ -85,7 +103,7 @@ class Animal implements \JsonSerializable
         $this->species = $species;
     }
 
-    public function getPrograms(): Collection
+    public function getPrograms()
     {
         return $this->programs;
     }

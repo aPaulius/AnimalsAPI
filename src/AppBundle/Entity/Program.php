@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Program implements \JsonSerializable
 {
     /**
+     * @var int
      * @ORM\Column(type="integer")
      * @ORM\Id
      */

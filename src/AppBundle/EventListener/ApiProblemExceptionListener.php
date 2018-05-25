@@ -13,29 +13,29 @@ class ApiProblemExceptionListener
 {
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        $e = $event->getException();
-
-        if ($e instanceof ApiProblemException) {
-            $apiProblem = $e->getApiProblem();
-        } else {
-            $statusCode = $e instanceof ClientException
-                ? $e->getCode()
-                : $e->getStatusCode();
-
-            $apiProblem = new ApiProblem($statusCode);
-
-            if ($e instanceof HttpException) {
-                $apiProblem->setDetails($e->getMessage());
-            }
-        }
-
-        $jsonResponse = new JsonResponse(
-            $apiProblem,
-            $apiProblem->getStatusCode(), [
-                'Content-Type' => 'application/problem+json',
-            ]
-        );
-
-        $event->setResponse($jsonResponse);
+//        $e = $event->getException();
+//
+//        if ($e instanceof ApiProblemException) {
+//            $apiProblem = $e->getApiProblem();
+//        } else {
+//            $statusCode = $e instanceof ClientException
+//                ? $e->getCode()
+//                : $e->getStatusCode();
+//
+//            $apiProblem = new ApiProblem($statusCode);
+//
+//            if ($e instanceof HttpException) {
+//                $apiProblem->setDetails($e->getMessage());
+//            }
+//        }
+//
+//        $jsonResponse = new JsonResponse(
+//            $apiProblem,
+//            $apiProblem->getStatusCode(), [
+//                'Content-Type' => 'application/problem+json',
+//            ]
+//        );
+//
+//        $event->setResponse($jsonResponse);
     }
 }

@@ -8,7 +8,6 @@ use AppBundle\Entity\Animal;
 use AppBundle\Entity\Program;
 use AppBundle\Model\ApiProblem;
 use AppBundle\Model\ApiProblemException;
-use Doctrine\Common\Collections\Collection;
 use GuzzleHttp\Exception\ConnectException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
