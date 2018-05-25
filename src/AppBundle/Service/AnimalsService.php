@@ -179,10 +179,21 @@ class AnimalsService
      * Show animals
      *
      * @param bool $embedded
+     * @param string $speciesFilter
      * @return array
      */
-    public function showAnimals($embedded = false): array {
+    public function showAnimals($embedded = false, $speciesFilter = null): array {
         $animals = $this->em->getRepository(Animal::class)->findAll();
+
+        if ($speciesFilter) {
+            $newAnimals = [];
+            foreach ($animals as $animal) {
+                if (strpos($animal->getSpecies(), $speciesFilter) !== false) {
+                    $newAnimals[] = $animal;
+                }
+            }
+            $animals = $newAnimals;
+        }
 
         foreach ($animals as $animal) {
             $animal->programsToArray();

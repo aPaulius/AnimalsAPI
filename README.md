@@ -91,7 +91,8 @@ POST /animals-service
     <env:Header/>
     <env:Body>
         <ns1:showAnimals>
-            <embedded>true</embedded>
+            <embedded>true</embedded>  
+            <speciesFilter>a</speciesFilter>         
         </ns1:showAnimals>
     </env:Body>
 </env:Envelope>
