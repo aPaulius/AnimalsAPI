@@ -49,6 +49,7 @@ POST /animals-service
             <id>1</id>
             <species>cat</species>
             <breed>abyssinian</breed>
+            <embedded>true</embedded>
         </ns1:updateAnimal>
     </env:Body>
 </env:Envelope>
@@ -63,6 +64,7 @@ POST /animals-service
         <ns1:updateAnimalSpecies>
             <id>1</id>
             <species>dog</species>
+            <embedded>true</embedded>
         </ns1:updateAnimalSpecies>
     </env:Body>
 </env:Envelope>
@@ -77,6 +79,7 @@ POST /animals-service
         <ns1:updateAnimalBreed>
             <id>1</id>
             <breed>akita</breed>
+            <embedded>true</embedded>
         </ns1:updateAnimalBreed>
     </env:Body>
 </env:Envelope>
@@ -84,11 +87,12 @@ POST /animals-service
 
 #### Show animals
 ```
-<?xml version="1.0" encoding="UTF-8"?>
 <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:ns1="http://nginx/animals-service">
     <env:Header/>
     <env:Body>
-        <ns1:showAnimals/>
+        <ns1:showAnimals>
+            <embedded>true</embedded>
+        </ns1:showAnimals>
     </env:Body>
 </env:Envelope>
 ```
@@ -101,6 +105,7 @@ POST /animals-service
     <env:Body>
         <ns1:showAnimal>
             <id>1</id>
+            <embedded>true</embedded>
         </ns1:showAnimal>
     </env:Body>
 </env:Envelope>
@@ -147,6 +152,7 @@ POST /animals-service
                     <value>type</value>
                 </item>
             </info>
+            <embedded>true</embedded>
         </ns1:assignProgramToAnimal>
     </env:Body>
 </env:Envelope>
@@ -159,10 +165,11 @@ POST /animals-service
     <env:Body>
         <ns1:updateAnimalPrograms>
         <id>1</id>
-            <programIds>
-                <xsd:string>1</xsd:string>
-                <xsd:string>2</xsd:string>
-            </programIds>
+        <programIds>
+            <xsd:string>1</xsd:string>
+            <xsd:string>2</xsd:string>
+        </programIds>
+        <embedded>true</embedded>
         </ns1:updateAnimalPrograms>
     </env:Body>
 </env:Envelope>

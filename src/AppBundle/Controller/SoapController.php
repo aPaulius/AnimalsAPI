@@ -90,7 +90,11 @@ class SoapController extends Controller
             $response->setContent($soapAutoDiscover->generate()->toXml());
         } else {
             $soap = new Server($serverUrl . '?wsdl');
-            $soap->setObject(new DocumentLiteralWrapper(new AnimalsService()));
+            $soap->setObject(new DocumentLiteralWrapper(new AnimalsService(
+                $this->get('validator'),
+                $this->get('doctrine.orm.entity_manager'),
+                $this->get('eight_points_guzzle.client.tv_api')
+            )));
             $soap->handle();
         }
 

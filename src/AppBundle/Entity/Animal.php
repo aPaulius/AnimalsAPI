@@ -68,6 +68,11 @@ class Animal implements \JsonSerializable
         $this->programs = $programsArray;
     }
 
+    public function addPrograms(array $programs)
+    {
+        $this->programs = $programs;
+    }
+
     public function jsonSerialize(): array
     {
         return [

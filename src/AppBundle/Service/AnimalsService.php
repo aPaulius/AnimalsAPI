@@ -68,13 +68,14 @@ class AnimalsService
      * @param string $id
      * @param string $species
      * @param string $breed
+     * @param bool $embedded
      * @return mixed \AppBundle\Entity\Animal
      * @throws \AppBundle\Exception\ValidationError
      * @throws \AppBundle\Exception\AnimalNotFound
      */
-    public function updateAnimal($id = null, $species = null, $breed = null): Animal
+    public function updateAnimal($id = null, $species = null, $breed = null, $embedded = false): Animal
     {
-        if (!$id || !$species || !$breed) {
+        if (!is_string($id) || !$id || !is_string($species) || !$species || !is_string($breed) || !$breed) {
             throw new ValidationError('SOAP-ENV:Client', 'Id, species and breed are required.');
         }
 
@@ -93,6 +94,10 @@ class AnimalsService
 
         $animal->programsToArray();
 
+        if ($embedded) {
+            $animal = $this->getEmbeddedAnimal($animal);
+        }
+
         return $animal;
     }
 
@@ -101,13 +106,14 @@ class AnimalsService
      *
      * @param string $id
      * @param string $species
+     * @param bool $embedded
      * @return mixed \AppBundle\Entity\Animal
      * @throws \AppBundle\Exception\ValidationError
      * @throws \AppBundle\Exception\AnimalNotFound
      */
-    public function updateAnimalSpecies($id = null, $species = null): Animal
+    public function updateAnimalSpecies($id = null, $species = null, $embedded = false): Animal
     {
-        if (!$id || !$species) {
+        if (!is_string($id) || !$id || !is_string($species) || !$species) {
             throw new ValidationError('SOAP-ENV:Client', 'Id and species are required.');
         }
 
@@ -125,6 +131,10 @@ class AnimalsService
 
         $animal->programsToArray();
 
+        if ($embedded) {
+            $animal = $this->getEmbeddedAnimal($animal);
+        }
+
         return $animal;
     }
 
@@ -133,13 +143,14 @@ class AnimalsService
      *
      * @param string $id
      * @param string $breed
+     * @param bool $embedded
      * @return mixed \AppBundle\Entity\Animal
      * @throws \AppBundle\Exception\ValidationError
      * @throws \AppBundle\Exception\AnimalNotFound
      */
-    public function updateAnimalBreed($id = null, $breed = null): Animal
+    public function updateAnimalBreed($id = null, $breed = null, $embedded = false): Animal
     {
-        if (!$id || !$breed) {
+        if (!is_string($id) || !$id || !is_string($breed) || !$breed) {
             throw new ValidationError('SOAP-ENV:Client', 'Id and breed are required.');
         }
 
@@ -157,19 +168,28 @@ class AnimalsService
 
         $animal->programsToArray();
 
+        if ($embedded) {
+            $animal = $this->getEmbeddedAnimal($animal);
+        }
+
         return $animal;
     }
 
     /**
      * Show animals
      *
+     * @param bool $embedded
      * @return array
      */
-    public function showAnimals(): array {
+    public function showAnimals($embedded = false): array {
         $animals = $this->em->getRepository(Animal::class)->findAll();
 
         foreach ($animals as $animal) {
             $animal->programsToArray();
+
+            if ($embedded) {
+                $this->getEmbeddedAnimal($animal);
+            }
         }
 
         return $animals;
@@ -179,19 +199,24 @@ class AnimalsService
      * Show animals
      *
      * @param string $id
+     * @param bool $embedded
      * @return mixed \AppBundle\Entity\Animal
      * @throws \AppBundle\Exception\AnimalNotFound
      * @throws \AppBundle\Exception\ValidationError
      */
-    public function showAnimal($id = null): Animal
+    public function showAnimal($id = null, $embedded = false): Animal
     {
-        if (!$id) throw new ValidationError('SOAP-ENV:Client', 'Id is required.');
+        if (!is_string($id) || !$id) throw new ValidationError('SOAP-ENV:Client', 'Id is required.');
 
         $animal = $this->em->getRepository(Animal::class)->find($id);
 
         if (!$animal) throw new AnimalNotFound('SOAP-ENV:Client', 'Animal not found.');
 
         $animal->programsToArray();
+
+        if ($embedded) {
+            $animal = $this->getEmbeddedAnimal($animal);
+        }
 
         return $animal;
     }
@@ -224,6 +249,7 @@ class AnimalsService
          * @param string $television
          * @param string $startTime
          * @param array $info
+         * @param bool $embedded
          * @return mixed \AppBundle\Entity\Animal
          * @throws \AppBundle\Exception\AnimalNotFound
          * @throws \AppBundle\Exception\ValidationError
@@ -233,12 +259,19 @@ class AnimalsService
             $title = null,
             $television = null,
             $startTime = null,
-            $info = null
+            $info = null,
+            $embedded = false
         ): Animal {
-            if (!$id || !$title || !$television || !$startTime) {
+            if (
+                !is_string($id) || !$id ||
+                !is_string($title) || !$title ||
+                !is_string($television) || !$television ||
+                !is_string($startTime) || !$startTime ||
+                !is_array($info) || !$info
+            ) {
                 throw new ValidationError(
                     'SOAP-ENV:Client',
-                    'Id, title, television and start time are required.');
+                    'Id, title, television, start time and info are required.');
             }
 
             $animal = $this->em->getRepository(Animal::class)->find($id);
@@ -274,6 +307,10 @@ class AnimalsService
 
             $animal->programsToArray();
 
+            if ($embedded) {
+                $animal = $this->getEmbeddedAnimal($animal);
+            }
+
             return $animal;
         }
 
@@ -282,14 +319,16 @@ class AnimalsService
      *
      * @param string $id
      * @param array $programIds
+     * @param bool $embedded
      * @return mixed \AppBundle\Entity\Animal
      * @throws \AppBundle\Exception\AnimalNotFound
      */
     public function updateAnimalPrograms(
         $id = null,
-        $programIds = null
+        $programIds = null,
+        $embedded = false
     ): Animal {
-        if (!$id || count($programIds) == 0) {
+        if (!is_string($id) || !$id || !is_array($programIds) || count($programIds) == 0) {
             throw new ValidationError('SOAP-ENV:Client', 'Id and programs ids are required.');
         }
 
@@ -314,6 +353,10 @@ class AnimalsService
         $this->em->flush();
 
         $animal->programsToArray();
+
+        if ($embedded) {
+            $animal = $this->getEmbeddedAnimal($animal);
+        }
 
         return $animal;
     }
@@ -344,5 +387,24 @@ class AnimalsService
         }
 
         return json_decode($response->getBody()->getContents());
+    }
+
+    private function getEmbeddedAnimal(Animal $animal): Animal
+    {
+        $programs = [];
+
+        try {
+            $this->tvProgramsApi->get('tv_programs');
+        } catch (ConnectException $e) {
+            return $animal;
+        }
+
+        foreach ($animal->getPrograms() as $program) {
+            $programs[] = $this->getProgram($program['id']);
+        }
+
+        $animal->addPrograms($programs);
+
+        return $animal;
     }
 }
